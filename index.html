@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/shogiground.css" />
+    <link rel="stylesheet" href="assets/css/hands.css" />
+    <link rel="stylesheet" href="assets/css/themes/wood-grid.css" />
+    <link rel="stylesheet" href="assets/css/pieces/ryoko.css" />
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .board-wrap {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap" style="display: flex">
+        <div id="hand-top" class="sg-hand-wrap"></div>
+        <div id='shogi-board' class="board-wrap main-board">
+            <div class="board sg-wrap"></div>
+        </div>
+        <div id="hand-bottom" class="sg-hand-wrap"></div>
+    </div>
+    <script src="/dist/shogiground.js"></script>
+    <script>
+        let sg = Shogiground(
+            {
+                sfen: {
+                    board: 'lnsgk1snl/1r4gb1/p1pppp1pp/6pP1/1p7/2P6/PP1PPPP1P/1BG4R1/LNS1KGSNL',
+                    hands: '',
+                },
+            },
+            {
+                board: document.getElementById('shogi-board'),
+                hands: {
+                    bottom: document.getElementById('hand-bottom'),
+                    top: document.getElementById('hand-top'),
+                },
+            },
+        );
+
+        setTimeout(function() {
+            sg.set({
+                sfen:{
+                    board: 'lnsgk1snl/1r4gb1/p1pppp2p/6pp1/1p7/2P6/PP1PPPP1P/1BG4R1/LNS1KGSNL',
+                    hands: 'p'
+                }
+            })
+        }, 2000);
+        setTimeout(function() {
+            sg.set({
+                sfen:{
+                    board: 'lnsgk1snl/1r4gb1/p1pppp2p/6pR1/1p7/2P6/PP1PPPP1P/1BG6/LNS1KGSNL',
+                    hands: 'Pp'
+                }
+            })
+        }, 4000);
+        setTimeout(function() {
+            sg.set({
+                sfen:{
+                    board: 'lnsgk1snl/1r4gb1/p1pppp2p/6pR1/9/1pP6/PP1PPPP1P/1BG6/LNS1KGSNL',
+                    hands: 'Pp'
+                }
+            })
+        }, 6000);
+        setTimeout(function() {
+            sg.set({
+                sfen:{
+                    board: 'lnsgk1snl/1r4gb1/p1pppp2p/6pR1/9/1PP6/P2PPPP1P/1BG6/LNS1KGSNL',
+                    hands: '2Pp'
+                }
+            })
+        }, 8000);
+        setTimeout(function() {
+            sg.set({
+                sfen:{
+                    board: 'lnsgk1snl/6gb1/p1pppp2p/6pR1/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL',
+                    hands: '2P2p'
+                }
+            })
+        }, 10000);
+        console.log(sg.getHandsSfen())
+    </script>
+</body>
+
+</html>
