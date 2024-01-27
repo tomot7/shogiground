@@ -1,1 +1,202 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><linearGradient id="a" gradientUnits="userSpaceOnUse" x1="23.796" y1="50.05" x2="76.297" y2="50.05" gradientTransform="matrix(1 0 0 -1 0 102)"><stop offset="0" stop-color="#f9da9c"/><stop offset=".043" stop-color="#fbe0a1"/><stop offset=".067" stop-color="#fce6a6"/><stop offset=".145" stop-color="#f4d593"/><stop offset=".193" stop-color="#f5d797"/><stop offset=".243" stop-color="#f7dda4"/><stop offset=".263" stop-color="#f9e1ab"/><stop offset=".329" stop-color="#f7dfa8"/><stop offset=".383" stop-color="#f2d89e"/><stop offset=".398" stop-color="#efd599"/><stop offset=".461" stop-color="#f2d795"/><stop offset=".462" stop-color="#f2d795"/><stop offset=".527" stop-color="#f2d795"/><stop offset=".538" stop-color="#f2d795"/><stop offset=".538" stop-color="#f2d795"/><stop offset=".615" stop-color="#efda9c"/><stop offset=".735" stop-color="#f6e5ad"/><stop offset=".773" stop-color="#f9e9b4"/><stop offset=".822" stop-color="#f7e1a6"/><stop offset=".887" stop-color="#f5db9b"/><stop offset=".956" stop-color="#f4d997"/><stop offset=".967" stop-color="#f4da9c"/><stop offset="1" stop-color="#f4db9e"/></linearGradient><path fill="url(#a)" stroke="#63451a" d="M18.8 15.7v5.8l8.7 58.6L50 88.2l22.5-8.1 8.7-58.6v-5.8z"/><path opacity=".75" fill="#63451a" d="M72.1 76.3l-22.1 8-22.1-8-8.6-60.1v5.2l8.6 58.3L50 87.6l22.1-7.9 8.6-58.3v-5.3z"/><path d="M50.6 35.4c-2.2 1.8-4.8 3.7-6.9 5.5-1 .9-1.7.7-2.4-.3-1.1-1.6-2.4-3.1-3.5-4.7-.9-1-1.5-.8-2.1.3-1.3 2.5-.7 4.2 2.6 6 2.1 1.2 2.1 1.2.2 2.6-2.2 1.7-2.2 3.1 0 4.8 1 .7 2.5 1.7 4.2 2.4.3.1.2.6-.1.6-3.3-.1-10.1-.4-13.3-.7-.9-.1-2.7-.4-2.7 1.3.1 1.1.6 1.9 1.2 2.2 1.7 1.1 3.7 1.3 5.6 1.2 4.1-.2 8.1-.7 12.2-1.1 1.1-.1 1.6.2 1.5 1.3-.1.7-.2 3.8-.6 3.7-.3 0-.6-.5-1-.6-2.5-.2-4.9-.3-7.4-.2-1 0-2.4.6-2.7 1.2-.3 1 1.5 1.8 2.4 2.2.7.3 1.5.2 2.4.1 1.5-.1 3-.3 4.6-.5.8-.1 1.4-.5 1.7-.3s.3.8.3 1c0 4 2.5 5.1 6 5.3.4 0 .7-.4.4-.7-2.6-3.4-1.9-7.2-2-10.9-.1-1.9.4-2.8 2.7-3.2 2.1-.4 1.9.3 1.9 1.7 0 1.3.2 3.1 1 3.8 1 .9 3.6 1.9 4.8 2.2.3.1.5-.2.3-.5-.2-.4-.5-.8-.8-1.2-1.1-1.7-1.8-3.6-1.4-5.7.2-1.1.6-1.7 1.7-1.7 3.9-.2 7.2-.4 11.3-.6h.6c.1 0 .1-.1 0-.3-.3-.7-1-1.8-1.7-2.3-3.3-2.2-7.1-.7-10.8-.4-.4 0-.7-.4-.6-.7.6-1.4 1.7-2.8 2.6-3.8 1-1.1 1.5-2.2.2-3.4-1.2-1-2.3-.4-3.1.7-1.4 1.8-2.5 3.7-3 5.6-.3.8-.4 1.6-.5 2.1-.1.6-1.8.7-2.9.7-3 .5-3.6.2-3.4-2.9 0-.6 0-2 .1-2.8 0-.2.2-.3.4-.2 1 .5 2.5 1.1 3.5 1.4.4.1.7-.3.5-.7-1-1.5-2-2.7-3.4-4.4-.4-.4-.4-.5-.7-.6-.1-.1-.8-.2-1-.1 0 0 .1-.2.7-.7 2.9-2.3 6.3-5.3 9.6-8 1.3-1 2.2-1.3 2.9 0 .9 1.4 1.6 3.1 2.6 4.7.2.3.6.2.6-.1.2-3.3-.6-6-1.7-8.5-.8-1.6-1.5-2-3-.9-2.8 2.6-10.6 9.1-10.6 9.1zM42.2 49c-.2-.3-.2-.9 0-1.2 1-1.2 2.2-2.4 3.3-3.6.3-.3.8-.1.9.3.3 2.5.6 4.8.8 7 .1.6-1.3.8-1.8.9-.1 0-.2 0-.3-.1-1.1-.8-2.2-2.2-2.9-3.3z"/><path d="M29.5 53.2c-.2.2 1 .8 1.7.4.9-.3 5.9-.4 9.4-.2.1.1-10-1.6-11.1-.2zm8.1-6.1c-.1-.2.2-1 .9-1.5.7-.4 1.1-.5 1.4-.4.1.1.3.6.1.7-.2.2-.5 0-1.1.5-.8.6-1.2 1-1.3.7z" fill="#fff"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.2"
+   width="50"
+   height="50"
+   viewBox="0 0 1931 2355"
+   preserveAspectRatio="xMidYMid"
+   fill-rule="evenodd"
+   stroke-width="28.222"
+   stroke-linejoin="round"
+   xml:space="preserve"
+   id="svg17"
+   sodipodi:docname="1FU.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:ooo="http://xml.openoffice.org/svg/export"><sodipodi:namedview
+   id="namedview17"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="15.42"
+   inkscape:cx="25.032425"
+   inkscape:cy="33.949416"
+   inkscape:window-width="1920"
+   inkscape:window-height="1009"
+   inkscape:window-x="1912"
+   inkscape:window-y="50"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="svg17" />
+ <defs
+   class="ClipPathGroup"
+   id="defs2">
+  <clipPath
+   id="presentation_clip_path"
+   clipPathUnits="userSpaceOnUse">
+   <rect
+   x="0"
+   y="0"
+   width="1931"
+   height="2355"
+   id="rect1" />
+  </clipPath>
+  <clipPath
+   id="presentation_clip_path_shrink"
+   clipPathUnits="userSpaceOnUse">
+   <rect
+   x="1"
+   y="2"
+   width="1928"
+   height="2351"
+   id="rect2" />
+  </clipPath>
+ </defs>
+ <defs
+   class="TextShapeIndex"
+   id="defs3">
+  <g
+   ooo:slide="id1"
+   ooo:id-list="id3"
+   id="g2" />
+ </defs>
+ <defs
+   class="EmbeddedBulletChars"
+   id="defs12">
+  <g
+   id="bullet-char-template-57356"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M 580,1141 L 1163,571 580,0 -4,571 580,1141 Z"
+   id="path3" />
+  </g>
+  <g
+   id="bullet-char-template-57354"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M 8,1128 L 1137,1128 1137,0 8,0 8,1128 Z"
+   id="path4" />
+  </g>
+  <g
+   id="bullet-char-template-10146"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M 174,0 L 602,739 174,1481 1456,739 174,0 Z M 1358,739 L 309,1346 659,739 1358,739 Z"
+   id="path5" />
+  </g>
+  <g
+   id="bullet-char-template-10132"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M 2015,739 L 1276,0 717,0 1260,543 174,543 174,936 1260,936 717,1481 1274,1481 2015,739 Z"
+   id="path6" />
+  </g>
+  <g
+   id="bullet-char-template-10007"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M 0,-2 C -7,14 -16,27 -25,37 L 356,567 C 262,823 215,952 215,954 215,979 228,992 255,992 264,992 276,990 289,987 310,991 331,999 354,1012 L 381,999 492,748 772,1049 836,1024 860,1049 C 881,1039 901,1025 922,1006 886,937 835,863 770,784 769,783 710,716 594,584 L 774,223 C 774,196 753,168 711,139 L 727,119 C 717,90 699,76 672,76 641,76 570,178 457,381 L 164,-76 C 142,-110 111,-127 72,-127 30,-127 9,-110 8,-76 1,-67 -2,-52 -2,-32 -2,-23 -1,-13 0,-2 Z"
+   id="path7" />
+  </g>
+  <g
+   id="bullet-char-template-10004"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M 285,-33 C 182,-33 111,30 74,156 52,228 41,333 41,471 41,549 55,616 82,672 116,743 169,778 240,778 293,778 328,747 346,684 L 369,508 C 377,444 397,411 428,410 L 1163,1116 C 1174,1127 1196,1133 1229,1133 1271,1133 1292,1118 1292,1087 L 1292,965 C 1292,929 1282,901 1262,881 L 442,47 C 390,-6 338,-33 285,-33 Z"
+   id="path8" />
+  </g>
+  <g
+   id="bullet-char-template-9679"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M 813,0 C 632,0 489,54 383,161 276,268 223,411 223,592 223,773 276,916 383,1023 489,1130 632,1184 813,1184 992,1184 1136,1130 1245,1023 1353,916 1407,772 1407,592 1407,412 1353,268 1245,161 1136,54 992,0 813,0 Z"
+   id="path9" />
+  </g>
+  <g
+   id="bullet-char-template-8226"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M 346,457 C 273,457 209,483 155,535 101,586 74,649 74,723 74,796 101,859 155,911 209,963 273,989 346,989 419,989 480,963 531,910 582,859 608,796 608,723 608,648 583,586 532,535 482,483 420,457 346,457 Z"
+   id="path10" />
+  </g>
+  <g
+   id="bullet-char-template-8211"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M -4,459 L 1135,459 1135,606 -4,606 -4,459 Z"
+   id="path11" />
+  </g>
+  <g
+   id="bullet-char-template-61548"
+   transform="scale(0.00048828125,-0.00048828125)">
+   <path
+   d="M 173,740 C 173,903 231,1043 346,1159 462,1274 601,1332 765,1332 928,1332 1067,1274 1183,1159 1299,1043 1357,903 1357,740 1357,577 1299,437 1183,322 1067,206 928,148 765,148 601,148 462,206 346,322 231,437 173,577 173,740 Z"
+   id="path12" />
+  </g>
+ </defs>
+ <g
+   id="g12">
+  <g
+   id="id2"
+   class="Master_Slide">
+   <g
+   id="bg-id2"
+   class="Background" />
+   <g
+   id="bo-id2"
+   class="BackgroundObjects" />
+  </g>
+ </g>
+ <g
+   class="SlideGroup"
+   id="g17"
+   transform="translate(-80.3555)">
+  <g
+   id="g16">
+   <g
+   id="container-id1">
+    <g
+   id="id1"
+   class="Slide"
+   clip-path="url(#presentation_clip_path)">
+     <g
+   class="Page"
+   id="g15">
+      <g
+   class="Graphic"
+   id="g14">
+       <g
+   id="id3">
+        <rect
+   class="BoundingBox"
+   stroke="none"
+   fill="none"
+   x="0"
+   y="0"
+   width="1931"
+   height="2355"
+   id="rect12" />
+        <path
+   fill="#f6ad54"
+   stroke="none"
+   d="m 1745,1891 c -1,19 -12,35 -29,44 l -674,341 c -15,7 -33,7 -48,0 L 320,1935 c -17,-9 -28,-25 -29,-44 L 176,228 c -2,-30 22,-56 53,-56 h 1578 c 31,0 55,26 53,56 l -115,1663 z"
+   id="path13" />
+        <path
+   fill="#2d3748"
+   stroke="none"
+   d="M 963,1352 H 497 c -22,0 -34,-18 -34,-43 0,-25 12,-42 34,-42 H 963 V 997 c 0,-81 44,-110 133,-110 43,0 78,4 110,10 19,3 32,19 32,42 0,4 0,8 -1,11 -5,20 -17,32 -35,32 -4,0 -8,0 -13,-1 -23,-5 -56,-9 -84,-9 -36,0 -47,10 -47,42 v 253 h 479 c 23,0 35,17 35,42 0,23 -12,43 -35,43 h -175 v 249 c 0,21 -19,33 -47,33 -28,0 -47,-12 -47,-33 v -249 h -212 v 344 c 0,23 -19,37 -47,37 -28,0 -46,-14 -46,-37 V 1593 H 598 c -22,0 -34,-20 -34,-43 0,-25 12,-45 34,-45 H 963 V 1352 Z M 731,1208 c -68,-75 -159,-146 -247,-191 -15,-7 -21,-22 -21,-36 0,-11 3,-21 9,-31 8,-15 24,-24 41,-24 9,0 16,2 24,6 90,50 187,127 266,218 6,7 8,14 8,22 0,13 -7,27 -19,36 -9,8 -21,12 -33,12 -11,0 -21,-3 -28,-12 z m 514,-3 c -16,-10 -25,-26 -25,-41 0,-7 2,-14 6,-20 73,-109 168,-194 259,-252 8,-6 19,-10 30,-10 15,0 29,6 40,21 8,10 11,22 11,32 0,14 -6,26 -17,34 -88,56 -180,135 -240,227 -8,11 -20,17 -35,17 -8,0 -19,-2 -29,-8 z M 708,1001 c -11,-9 -16,-21 -16,-34 0,-12 5,-24 13,-34 161,-190 449,-312 742,-332 1,0 3,0 5,0 24,0 46,11 51,39 1,4 1,7 1,10 0,27 -17,45 -43,47 -286,12 -540,127 -688,303 -9,10 -20,15 -32,15 -11,0 -24,-5 -33,-14 z"
+   id="path14" />
+       </g>
+      </g>
+     </g>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>

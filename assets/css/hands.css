@@ -37,12 +37,11 @@ sg-hp-wrap[data-nb='0']:not(.selected):not(.drawing)::after {
 
 .sg-hand-wrap {
   position: relative;
-  width: 200px;
-  height: 200px;
-  background-image: url('../board/new_board.png');
+  width: 82px;
+  height: 410px;
+  background-image: url('../board/hands.svg');
   background-size: cover;
   margin: 0 1rem;
-  border: 1px solid black;
 }
 .sg-hand-wrap sg-hand {
   display: flex;
