@@ -31,12 +31,69 @@
     </div>
     <script src="dist/shogiground.js"></script>
     <script>
+        // URLからクエリストリングを取得
+        const queryString = window.location.search;
+
+        // URLSearchParamsを使用してクエリストリングのパラメータを解析
+        const urlParams = new URLSearchParams(queryString);
+        console.log(urlParams)
+
+        // 盤の縦方向位置についての、日本語⇔SFEN対応辞書
+        const positionDict = {
+            "一": "a",
+            "二": "b",
+            "三": "c",
+            "四": "d",
+            "五": "e",
+            "六": "f",
+            "七": "g",
+            "八": "h",
+            "九": "i",
+        }
+
+        let initBoard = ""
+        let initHands = ""
+        // 手順を格納する
+        let moves = []
+
+        // 全てのパラメータを取得
+        for (let param of urlParams) {
+            console.log(param);
+            if (param[0] === "init") {
+                // 盤面を初期化する
+                const sfenSplitedSpace = param[1].split(" ")
+                initBoard = sfenSplitedSpace[0]
+                initHands = sfenSplitedSpace[2]
+            } else if (param[0] === "moves") {
+                // 手順をshogigroundで使用できる形に格納する
+                const movesStringArr = param[1].split("/")
+                console.log(movesStringArr)
+                let regex = /\(([^)]+)\)/;
+                movesStringArr.forEach(item => {
+                    let match = item.match(regex);
+                    let inside = match ? match[1].split("") : null;
+                    let outside = item.split(regex).filter((_, i) => i % 2 === 0)[0].split("");
+                    const move = {
+                        "before": inside[0] + positionDict[inside[1]],
+                        "after": outside[0] + positionDict[outside[1]]
+                    }
+                    moves.push(move)
+                })
+            }
+
+        }
         let sg = Shogiground(
             {
                 sfen: {
-                    board: 'lnsgk1snl/1r4gb1/p1pppp1pp/6pP1/1p7/2P6/PP1PPPP1P/1BG4R1/LNS1KGSNL',
-                    hands: '',
+                    board: initBoard,
+                    hands: initHands,
                 },
+                movable: {
+                    free: false
+                },
+                droppable: {
+                    free: false
+                }
             },
             {
                 board: document.getElementById('shogi-board'),
@@ -47,47 +104,14 @@
             },
         );
 
-        setTimeout(function() {
-            sg.set({
-                sfen:{
-                    board: 'lnsgk1snl/1r4gb1/p1pppp2p/6pp1/1p7/2P6/PP1PPPP1P/1BG4R1/LNS1KGSNL',
-                    hands: 'p'
+        moves.forEach((move, index) => {
+            setTimeout(function () {
+                if (sg.state.pieces.get(move.after)) {
+                    sg.addToHand({ role: sg.state.pieces.get(move.after).role, color: sg.state.pieces.get(move.after).color })
                 }
-            })
-        }, 2000);
-        setTimeout(function() {
-            sg.set({
-                sfen:{
-                    board: 'lnsgk1snl/1r4gb1/p1pppp2p/6pR1/1p7/2P6/PP1PPPP1P/1BG6/LNS1KGSNL',
-                    hands: 'Pp'
-                }
-            })
-        }, 4000);
-        setTimeout(function() {
-            sg.set({
-                sfen:{
-                    board: 'lnsgk1snl/1r4gb1/p1pppp2p/6pR1/9/1pP6/PP1PPPP1P/1BG6/LNS1KGSNL',
-                    hands: 'Pp'
-                }
-            })
-        }, 6000);
-        setTimeout(function() {
-            sg.set({
-                sfen:{
-                    board: 'lnsgk1snl/1r4gb1/p1pppp2p/6pR1/9/1PP6/P2PPPP1P/1BG6/LNS1KGSNL',
-                    hands: '2Pp'
-                }
-            })
-        }, 8000);
-        setTimeout(function() {
-            sg.set({
-                sfen:{
-                    board: 'lnsgk1snl/6gb1/p1pppp2p/6pR1/9/1rP6/P2PPPP1P/1BG6/LNS1KGSNL',
-                    hands: '2P2p'
-                }
-            })
-        }, 10000);
-        console.log(sg.getHandsSfen())
+                sg.move(move.before, move.after)
+            }, 2000 * index);
+        })
     </script>
 </body>
 
