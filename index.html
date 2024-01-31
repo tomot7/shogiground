@@ -50,6 +50,17 @@
             "八": "h",
             "九": "i",
         }
+        // 盤の縦方向位置についての、日本語⇔SFEN対応辞書
+        const roleDict = {
+            "歩": "pawn",
+            "香": "lance",
+            "桂": "knight",
+            "銀": "silver",
+            "金": "gold",
+            "角": "bishop",
+            "飛": "rook",
+            "玉": "king",
+        }
 
         let initBoard = ""
         let initHands = ""
@@ -74,14 +85,17 @@
                     let inside = match ? match[1].split("") : null;
                     let outside = item.split(regex).filter((_, i) => i % 2 === 0)[0].split("");
                     const move = {
-                        "before": inside[0] + positionDict[inside[1]],
-                        "after": outside[0] + positionDict[outside[1]]
+                        // movesパラメーターの()内（コマ移動前の位置）が存在しなければ、nullとする
+                        "before": inside !== null ? inside[0] + positionDict[inside[1]] : null,
+                        "after": outside[0] + positionDict[outside[1]],
+                        "role": roleDict[outside[2]]
                     }
                     moves.push(move)
                 })
             }
 
         }
+
         let sg = Shogiground(
             {
                 sfen: {
@@ -107,10 +121,16 @@
         moves.forEach((move, index) => {
             setTimeout(function () {
                 if (sg.state.pieces.get(move.after)) {
-                    sg.addToHand({ role: sg.state.pieces.get(move.after).role, color: sg.state.pieces.get(move.after).color })
+                    // 移動予定のマスに駒が存在する場合、そのコマを持ち駒に加える
+                    sg.addToHand({ role: sg.state.pieces.get(move.after).role, color: sg.state.pieces.get(move.before).color })
                 }
-                sg.move(move.before, move.after)
-            }, 2000 * index);
+                if (move.before === null) {
+                    // コマ移動前の位置が存在しない場合は持ち駒を使っているため、dropメソッドを使用する
+                    sg.drop({ role: move.role, color: sg.state.turncolor === "sente" ? "gote" : "sente" }, move.after)
+                } else {
+                    sg.move(move.before, move.after)
+                }
+            }, 1000 * index);
         })
     </script>
 </body>
