@@ -61,11 +61,67 @@
             "飛": "rook",
             "玉": "king",
         }
+        // エンコード用のマップ
+        const encodeMap = {
+            '1': 'A', '2': 'B', '3': 'C', '4': 'D', '5': 'E',
+            '6': 'F', '7': 'G', '8': 'H', '9': 'I', '一': 'J',
+            '二': 'K', '三': 'L', '四': 'M', '五': 'N', '六': 'O',
+            '七': 'P', '八': 'Q', '九': 'R', '歩': 'S', '香': 'T',
+            '桂': 'U', '銀': 'V', '金': 'W', '角': 'X', '飛': 'Y',
+            '成': 'Z', '不成': '0'
+        };
+        // デコード用のマップ
+        const decodeMap = {};
+        for (let key in encodeMap) {
+            decodeMap[encodeMap[key]] = key;
+        }
+        // デコード関数
+        function decode(str) {
+            let result = '';
+            for (let i = 0; i < str.length; i++) {
+                result += decodeMap[str[i]] ? decodeMap[str[i]] : str[i];
+            }
+            return result;
+        }
 
         let initBoard = ""
         let initHands = ""
+        // 手番を格納する
+        let turn = ""
         // 手順を格納する
         let moves = []
+        // 候補手を格納する
+        let candidateMoves = []
+        // 候補手の数
+        let candidateMoveCount = 0
+
+
+        function reshapeMove(moveStr) {
+            let regex = /\(([^)]+)\)/;
+            let match = moveStr.match(regex);
+            let inside = match ? match[1].split("") : null;
+            let outside = moveStr.split(regex).filter((_, i) => i % 2 === 0)[0].split("");
+            const move = {
+                // movesパラメーターの()内（コマ移動前の位置）が存在しなければ、nullとする
+                "before": inside !== null ? inside[0] + positionDict[inside[1]] : null,
+                "after": outside[0] + positionDict[outside[1]],
+                "role": roleDict[outside[2]]
+            }
+            return move
+        }
+
+        function changeSituation(sg, move) {
+            if (sg.state.pieces.get(move.after)) {
+                // 移動予定のマスに駒が存在する場合、そのコマを持ち駒に加える
+                sg.addToHand({ role: sg.state.pieces.get(move.after).role, color: sg.state.pieces.get(move.before).color })
+            }
+            if (move.before === null) {
+                // コマ移動前の位置が存在しない場合は持ち駒を使っているため、dropメソッドを使用する
+                sg.drop({ role: move.role, color: sg.state.turncolor === "sente" ? "gote" : "sente" }, move.after)
+            } else {
+                sg.move(move.before, move.after)
+            }
+        }
 
         // 全てのパラメータを取得
         for (let param of urlParams) {
@@ -75,25 +131,18 @@
                 const sfenSplitedSpace = param[1].split(" ")
                 initBoard = sfenSplitedSpace[0]
                 initHands = sfenSplitedSpace[2]
+            } else if (param[0] === "turn") {
+                turn = param[1]
             } else if (param[0] === "moves") {
                 // 手順をshogigroundで使用できる形に格納する
-                const movesStringArr = param[1].split("/")
-                console.log(movesStringArr)
-                let regex = /\(([^)]+)\)/;
+                const movesStringArr = decode(param[1]).split("/")
                 movesStringArr.forEach(item => {
-                    let match = item.match(regex);
-                    let inside = match ? match[1].split("") : null;
-                    let outside = item.split(regex).filter((_, i) => i % 2 === 0)[0].split("");
-                    const move = {
-                        // movesパラメーターの()内（コマ移動前の位置）が存在しなければ、nullとする
-                        "before": inside !== null ? inside[0] + positionDict[inside[1]] : null,
-                        "after": outside[0] + positionDict[outside[1]],
-                        "role": roleDict[outside[2]]
-                    }
-                    moves.push(move)
+                    moves.push(reshapeMove(item))
                 })
+            } else if (param[0] === "candidateMoves") {
+                candidateMoves = (decode(param[1])).slice(1, -1).split(',').map(item => item.split('|'))
+                candidateMoveCount = candidateMoves[0].length
             }
-
         }
 
         let sg = Shogiground(
@@ -120,16 +169,7 @@
 
         moves.forEach((move, index) => {
             setTimeout(function () {
-                if (sg.state.pieces.get(move.after)) {
-                    // 移動予定のマスに駒が存在する場合、そのコマを持ち駒に加える
-                    sg.addToHand({ role: sg.state.pieces.get(move.after).role, color: sg.state.pieces.get(move.before).color })
-                }
-                if (move.before === null) {
-                    // コマ移動前の位置が存在しない場合は持ち駒を使っているため、dropメソッドを使用する
-                    sg.drop({ role: move.role, color: sg.state.turncolor === "sente" ? "gote" : "sente" }, move.after)
-                } else {
-                    sg.move(move.before, move.after)
-                }
+                changeSituation(sg, move)
             }, 1000 * index);
         })
     </script>
