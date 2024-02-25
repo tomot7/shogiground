@@ -7,12 +7,9 @@
     <link rel="stylesheet" href="assets/css/hands.css" />
     <link rel="stylesheet" href="assets/css/themes/wood-grid.css" />
     <link rel="stylesheet" href="assets/css/pieces/ryoko.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
     <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        body {}
 
         .board-wrap {
             width: 400px;
@@ -20,159 +17,221 @@
         }
     </style>
 </head>
-
-<body>
-    <div class="wrap" style="display: flex">
+<div class="flex one">
+    <div class="wrap" style="display: flex; align-items: center; justify-content: center;">
         <div id="hand-top" class="sg-hand-wrap"></div>
         <div id='shogi-board' class="board-wrap main-board">
             <div class="board sg-wrap"></div>
         </div>
         <div id="hand-bottom" class="sg-hand-wrap"></div>
     </div>
-    <script src="dist/shogiground.js"></script>
-    <script>
-        // URLからクエリストリングを取得
-        const queryString = window.location.search;
+    <div id="app">
+        <div class="flex one">
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <button style="margin: 10px;" v-if="mode === '問題'" v-for="move in currentCandidateMove"
+                    @click="setSelectedCandidateMove(move)">
+                    {{move}}
+                </button>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <div class="card">
+                    <p>各手順のヒントを表示します。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="dist/shogiground.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const { createApp, ref, watch } = Vue
+    createApp({
+        setup() {
+            // URLからクエリストリングを取得
+            const queryString = window.location.search;
 
-        // URLSearchParamsを使用してクエリストリングのパラメータを解析
-        const urlParams = new URLSearchParams(queryString);
-        console.log(urlParams)
+            // URLSearchParamsを使用してクエリストリングのパラメータを解析
+            const urlParams = new URLSearchParams(queryString);
+            console.log(urlParams)
 
-        // 盤の縦方向位置についての、日本語⇔SFEN対応辞書
-        const positionDict = {
-            "一": "a",
-            "二": "b",
-            "三": "c",
-            "四": "d",
-            "五": "e",
-            "六": "f",
-            "七": "g",
-            "八": "h",
-            "九": "i",
-        }
-        // 盤の縦方向位置についての、日本語⇔SFEN対応辞書
-        const roleDict = {
-            "歩": "pawn",
-            "香": "lance",
-            "桂": "knight",
-            "銀": "silver",
-            "金": "gold",
-            "角": "bishop",
-            "飛": "rook",
-            "玉": "king",
-        }
-        // エンコード用のマップ
-        const encodeMap = {
-            '1': 'A', '2': 'B', '3': 'C', '4': 'D', '5': 'E',
-            '6': 'F', '7': 'G', '8': 'H', '9': 'I', '一': 'J',
-            '二': 'K', '三': 'L', '四': 'M', '五': 'N', '六': 'O',
-            '七': 'P', '八': 'Q', '九': 'R', '歩': 'S', '香': 'T',
-            '桂': 'U', '銀': 'V', '金': 'W', '角': 'X', '飛': 'Y',
-            '成': 'Z', '不成': '0'
-        };
-        // デコード用のマップ
-        const decodeMap = {};
-        for (let key in encodeMap) {
-            decodeMap[encodeMap[key]] = key;
-        }
-        // デコード関数
-        function decode(str) {
-            let result = '';
-            for (let i = 0; i < str.length; i++) {
-                result += decodeMap[str[i]] ? decodeMap[str[i]] : str[i];
+            // 盤の縦方向位置についての、日本語⇔SFEN対応辞書
+            const positionDict = {
+                "一": "a",
+                "二": "b",
+                "三": "c",
+                "四": "d",
+                "五": "e",
+                "六": "f",
+                "七": "g",
+                "八": "h",
+                "九": "i",
             }
-            return result;
-        }
-
-        let initBoard = ""
-        let initHands = ""
-        // 手番を格納する
-        let turn = ""
-        // 手順を格納する
-        let moves = []
-        // 候補手を格納する
-        let candidateMoves = []
-        // 候補手の数
-        let candidateMoveCount = 0
-
-
-        function reshapeMove(moveStr) {
-            let regex = /\(([^)]+)\)/;
-            let match = moveStr.match(regex);
-            let inside = match ? match[1].split("") : null;
-            let outside = moveStr.split(regex).filter((_, i) => i % 2 === 0)[0].split("");
-            const move = {
-                // movesパラメーターの()内（コマ移動前の位置）が存在しなければ、nullとする
-                "before": inside !== null ? inside[0] + positionDict[inside[1]] : null,
-                "after": outside[0] + positionDict[outside[1]],
-                "role": roleDict[outside[2]]
+            // 盤の縦方向位置についての、日本語⇔SFEN対応辞書
+            const roleDict = {
+                "歩": "pawn",
+                "香": "lance",
+                "桂": "knight",
+                "銀": "silver",
+                "金": "gold",
+                "角": "bishop",
+                "飛": "rook",
+                "玉": "king",
             }
-            return move
-        }
-
-        function changeSituation(sg, move) {
-            if (sg.state.pieces.get(move.after)) {
-                // 移動予定のマスに駒が存在する場合、そのコマを持ち駒に加える
-                sg.addToHand({ role: sg.state.pieces.get(move.after).role, color: sg.state.pieces.get(move.before).color })
+            // エンコード用のマップ
+            const encodeMap = {
+                '1': 'A', '2': 'B', '3': 'C', '4': 'D', '5': 'E',
+                '6': 'F', '7': 'G', '8': 'H', '9': 'I', '一': 'J',
+                '二': 'K', '三': 'L', '四': 'M', '五': 'N', '六': 'O',
+                '七': 'P', '八': 'Q', '九': 'R', '歩': 'S', '香': 'T',
+                '桂': 'U', '銀': 'V', '金': 'W', '角': 'X', '飛': 'Y',
+                '成': 'Z', '不成': '0'
+            };
+            // デコード用のマップ
+            const decodeMap = {};
+            for (let key in encodeMap) {
+                decodeMap[encodeMap[key]] = key;
             }
-            if (move.before === null) {
-                // コマ移動前の位置が存在しない場合は持ち駒を使っているため、dropメソッドを使用する
-                sg.drop({ role: move.role, color: sg.state.turncolor === "sente" ? "gote" : "sente" }, move.after)
-            } else {
-                sg.move(move.before, move.after)
-            }
-        }
-
-        // 全てのパラメータを取得
-        for (let param of urlParams) {
-            console.log(param);
-            if (param[0] === "init") {
-                // 盤面を初期化する
-                const sfenSplitedSpace = param[1].split(" ")
-                initBoard = sfenSplitedSpace[0]
-                initHands = sfenSplitedSpace[2]
-            } else if (param[0] === "turn") {
-                turn = param[1]
-            } else if (param[0] === "moves") {
-                // 手順をshogigroundで使用できる形に格納する
-                const movesStringArr = decode(param[1]).split("/")
-                movesStringArr.forEach(item => {
-                    moves.push(reshapeMove(item))
-                })
-            } else if (param[0] === "candidateMoves") {
-                candidateMoves = (decode(param[1])).slice(1, -1).split(',').map(item => item.split('|'))
-                candidateMoveCount = candidateMoves[0].length
-            }
-        }
-
-        let sg = Shogiground(
-            {
-                sfen: {
-                    board: initBoard,
-                    hands: initHands,
-                },
-                movable: {
-                    free: false
-                },
-                droppable: {
-                    free: false
+            // デコード関数
+            function decode(str) {
+                let result = '';
+                for (let i = 0; i < str.length; i++) {
+                    result += decodeMap[str[i]] ? decodeMap[str[i]] : str[i];
                 }
-            },
-            {
-                board: document.getElementById('shogi-board'),
-                hands: {
-                    bottom: document.getElementById('hand-bottom'),
-                    top: document.getElementById('hand-top'),
-                },
-            },
-        );
+                return result;
+            }
 
-        moves.forEach((move, index) => {
-            setTimeout(function () {
+            let mode = ref("")
+            let initBoard = ""
+            let initHands = ""
+            // 手番を格納する
+            let turn = ""
+            // 手順を格納する
+            let moves = []
+            // 次の正解手
+            let move = ref("")
+            // 候補手を格納する
+            let candidateMoves = []
+            // 次の候補手
+            let currentCandidateMove = ref([])
+            // ユーザーが選択した候補手
+            let selectedCandidateMove = ref("")
+            // 現在の手数
+            let currentMoveIndex = 0
+            // 現在の候補手のインデックス
+            let currentCandidateMoveIndex = 0
+            // 候補手の数
+            let candidateMoveCount = 0
+
+
+            function reshapeMove(moveStr) {
+                let regex = /\(([^)]+)\)/;
+                let match = moveStr.match(regex);
+                let inside = match ? match[1].split("") : null;
+                let outside = moveStr.split(regex).filter((_, i) => i % 2 === 0)[0].split("");
+                const move = {
+                    // movesパラメーターの()内（コマ移動前の位置）が存在しなければ、nullとする
+                    "before": inside !== null ? inside[0] + positionDict[inside[1]] : null,
+                    "after": outside[0] + positionDict[outside[1]],
+                    "role": roleDict[outside[2]]
+                }
+                return move
+            }
+
+            function changeSituation(sg, move) {
+                if (sg.state.pieces.get(move.after)) {
+                    // 移動予定のマスに駒が存在する場合、そのコマを持ち駒に加える
+                    sg.addToHand({ role: sg.state.pieces.get(move.after).role, color: sg.state.pieces.get(move.before).color })
+                }
+                if (move.before === null) {
+                    // コマ移動前の位置が存在しない場合は持ち駒を使っているため、dropメソッドを使用する
+                    sg.drop({ role: move.role, color: sg.state.turncolor === "sente" ? "gote" : "sente" }, move.after)
+                } else {
+                    sg.move(move.before, move.after)
+                }
+            }
+
+            // 全てのパラメータの取得と下処理
+            for (let param of urlParams) {
+                console.log(param);
+                if (param[0] === "init") {
+                    // 盤面を初期化する
+                    const sfenSplitedSpace = param[1].split(" ")
+                    initBoard = sfenSplitedSpace[0]
+                    initHands = sfenSplitedSpace[2]
+                } else if (param[0] === "turn") {
+                    turn = param[1]
+                } else if (param[0] === "moves") {
+                    // 手順をshogigroundで使用できる形に格納する
+                    const movesStringArr = decode(param[1]).split("/")
+                    movesStringArr.forEach(item => {
+                        moves.push(reshapeMove(item))
+                    })
+                } else if (param[0] === "candidateMoves") {
+                    candidateMoves = (decode(param[1])).slice(1, -1).split(',').map(item => item.split('|'))
+                    candidateMoveCount = candidateMoves[0].length
+                    currentCandidateMove.value = candidateMoves[0]
+                } else if (param[0] === "mode") {
+                    mode.value = param[1]
+                }
+            }
+
+            let sg = Shogiground(
+                {
+                    sfen: {
+                        board: initBoard,
+                        hands: initHands,
+                    },
+                    movable: {
+                        free: false
+                    },
+                    droppable: {
+                        free: false
+                    }
+                },
+                {
+                    board: document.getElementById('shogi-board'),
+                    hands: {
+                        bottom: document.getElementById('hand-bottom'),
+                        top: document.getElementById('hand-top'),
+                    },
+                },
+            );
+
+            function setSelectedCandidateMove(move) {
+                selectedCandidateMove.value = move
+            }
+
+            watch(selectedCandidateMove, (newValue, oldValue) => {
+                console.log("change selectedCandidateMove")
+                let move = reshapeMove(newValue)
                 changeSituation(sg, move)
-            }, 1000 * index);
-        })
-    </script>
-</body>
+                if (move.before === moves[currentMoveIndex].before && move.after === moves[currentMoveIndex].after && move.role === moves[currentMoveIndex].role) {
+                    console.log("正解")
+                    currentCandidateMoveIndex++
+                    currentMoveIndex++
+                    setTimeout(() => {
+                        if (candidateMoves.length > currentCandidateMoveIndex) {
+                            changeSituation(sg, moves[currentMoveIndex])
+                            currentMoveIndex++
+                            currentCandidateMove.value = candidateMoves[currentCandidateMoveIndex]
+                        } else {
+                            console.log("終了")
+                        }
+                    }, 1000)
+                    console.log(currentCandidateMove.value)
+                } else {
+                    console.log("不正解")
+                }
+            })
+
+            return {
+                mode,
+                currentCandidateMove,
+                sg,
+                setSelectedCandidateMove
+            }
+        }
+    }).mount('#app')
+</script>
 
 </html>
