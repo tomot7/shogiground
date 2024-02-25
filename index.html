@@ -28,6 +28,7 @@
     <div id="app">
         <div class="flex one">
             <div style="display: flex; align-items: center; justify-content: center;">
+                <button class='warning' style="margin: 10px;" @click="removeSg">一手戻る</button>
                 <button style="margin: 10px;" v-if="mode === '問題'" v-for="move in currentCandidateMove"
                     @click="setSelectedCandidateMove(move)">
                     {{move}}
@@ -103,6 +104,8 @@
             let mode = ref("")
             let initBoard = ""
             let initHands = ""
+            // 局面を戻すために使用する
+            let oldSfens = []
             // 手番を格納する
             let turn = ""
             // 手順を格納する
@@ -152,7 +155,7 @@
 
             // 全てのパラメータの取得と下処理
             for (let param of urlParams) {
-                console.log(param);
+                // console.log(param);
                 if (param[0] === "init") {
                     // 盤面を初期化する
                     const sfenSplitedSpace = param[1].split(" ")
@@ -186,7 +189,7 @@
                     },
                     droppable: {
                         free: false
-                    }
+                    },
                 },
                 {
                     board: document.getElementById('shogi-board'),
@@ -197,13 +200,10 @@
                 },
             );
 
-            function setSelectedCandidateMove(move) {
-                selectedCandidateMove.value = move
-            }
-
-            watch(selectedCandidateMove, (newValue, oldValue) => {
-                console.log("change selectedCandidateMove")
-                let move = reshapeMove(newValue)
+            function setSelectedCandidateMove(selectedMove) {
+                let oldSfen = { board: sg.getBoardSfen(), hands: sg.getHandsSfen(), lastDests: sg.state.lastDests }
+                oldSfens.push(oldSfen)
+                let move = reshapeMove(selectedMove)
                 changeSituation(sg, move)
                 if (move.before === moves[currentMoveIndex].before && move.after === moves[currentMoveIndex].after && move.role === moves[currentMoveIndex].role) {
                     console.log("正解")
@@ -216,19 +216,39 @@
                             currentCandidateMove.value = candidateMoves[currentCandidateMoveIndex]
                         } else {
                             console.log("終了")
+                            sg.set({ sfen: { board: initBoard, hands: initHands } })
                         }
                     }, 1000)
-                    console.log(currentCandidateMove.value)
                 } else {
                     console.log("不正解")
                 }
-            })
+            }
+
+            // 一手戻る用のメソッド
+            function removeSg() {
+                if (mode.value === '問題') {
+                    currentCandidateMoveIndex--
+                    currentMoveIndex = currentMoveIndex - 2
+                    let oldSfen = oldSfens.pop()
+                    sg.set({ sfen: { board: oldSfen.board, hands: oldSfen.hands }, lastDests: oldSfen.lastDests })
+                    currentCandidateMove.value = candidateMoves[currentCandidateMoveIndex]
+                    if (oldSfens.length === 0) {
+                        currentCandidateMoveIndex = 0
+                        currentMoveIndex = 0
+                        currentCandidateMove.value = candidateMoves[currentCandidateMoveIndex]
+                        oldSfens.push(oldSfen)
+                    }
+                } else if (mode.value === '定跡') {
+                    console.log("定跡")
+                }
+            }
 
             return {
                 mode,
                 currentCandidateMove,
                 sg,
-                setSelectedCandidateMove
+                setSelectedCandidateMove,
+                removeSg
             }
         }
     }).mount('#app')
